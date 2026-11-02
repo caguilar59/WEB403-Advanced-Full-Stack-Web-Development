@@ -1,0 +1,109 @@
+.App {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1.25rem;
+  background: #f8f9fa;
+}
+
+.todo-card {
+  width: min(100%, 24rem);
+  text-align: center;
+}
+
+.todo-card h1 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(2.5rem, 9vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.weekday,
+.heading-title {
+  display: block;
+}
+
+.weekday {
+  color: #f0ae00;
+  font-size: 0.7em;
+}
+
+.heading-title {
+  color: #212529;
+  font-size: 0.72em;
+}
+
+.todo-list {
+  width: min(100%, 18rem);
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.todo-list-item + .todo-list-item {
+  margin-top: 0.5rem;
+}
+
+.todo-button {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background-color: #259aae;
+  border: 1px solid #259aae;
+  border-radius: 0.25rem;
+  font: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 120ms ease, transform 120ms ease;
+}
+
+.todo-button:hover {
+  background-color: #197f91;
+  transform: translateY(-1px);
+}
+
+.todo-button:focus-visible,
+.dismiss-button:focus-visible {
+  outline: 3px solid #f0ae00;
+  outline-offset: 3px;
+}
+
+.note-card {
+  width: min(100%, 18rem);
+  box-sizing: border-box;
+  margin: 1rem auto 0;
+  padding: 1rem;
+  color: #212529;
+  background: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.35rem;
+  box-shadow: 0 0.15rem 0.5rem rgb(0 0 0 / 8%);
+}
+
+.note-card p {
+  margin: 0 0 0.75rem;
+  font-weight: 600;
+}
+
+.dismiss-button {
+  min-width: 4rem;
+  padding: 0.35rem 0.75rem;
+  color: #212529;
+  background: #ffc107;
+  border: 1px solid #e0a800;
+  border-radius: 0.25rem;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.dismiss-button:hover {
+  background: #e0a800;
+}
+
+@media (max-width: 480px) {
+  .App {
+    padding: 1.5rem 1rem;
+  }
+}

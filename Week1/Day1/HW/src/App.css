@@ -1,38 +1,64 @@
 .App {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1.25rem;
+}
+
+.todo-card {
+  width: min(100%, 24rem);
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.todo-card h1 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(2.5rem, 9vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1.15;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.weekday,
+.heading-title {
+  display: block;
+}
+
+.weekday {
+  color: #f0bd45;
+  font-size: 1.3em;
+}
+
+.heading-title {
+  color: #212529;
+}
+
+.todo-list {
+  width: min(100%, 18rem);
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  list-style: none;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.3rem;
+}
+
+.todo-list-item {
+  padding: 0.85rem 1rem;
+  color: #fff;
+  background-color: #50a2b4;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  font-size: 1.05rem;
+}
+
+.todo-list-item:last-child {
+  border-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .App {
+    padding: 1.5rem 1rem;
   }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+  .todo-card h1 {
+    margin-bottom: 1rem;
   }
 }

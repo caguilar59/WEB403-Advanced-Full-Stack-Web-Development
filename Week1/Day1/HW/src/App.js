@@ -1,38 +1,39 @@
 import React from 'react';
 import './App.css';
-import {TodoList1, TodoList2} from './componets/todolist';
-import "bootstrap/dist/css/bootstrap.min.css";
 
+const todosByDay = {
+  Sunday: ['Plan the week', 'Call family', 'Prep meals'],
+  Monday: ['Cook Breakfast', 'Walk Dog', 'Take Shower'],
+  Tuesday: ['Get Lunch', 'Run a Mile', 'Take Bath'],
+  Wednesday: ['Finish homework', 'Go for a walk', 'Read a chapter'],
+  Thursday: ['Attend class', 'Pick up groceries', 'Tidy the desk'],
+  Friday: ['Submit assignments', 'Meet a friend', 'Watch a movie'],
+  Saturday: ['Do laundry', 'Visit the farmers market', 'Relax'],
+};
 
- function App() {
+function TodoList({ items }) {
+  return (
+    <ul className="todo-list" aria-label="Tasks for today">
+      {items.map((item) => (
+        <li className="todo-list-item" key={item}>{item}</li>
+      ))}
+    </ul>
+  );
+}
 
-  let d = new Date();//get current date
-
-  let day =new Array(7);// create array of days
-
-  day[0] = "Sunday";
-  day[1] = "Monday";
-  day[2] = "Tuesday";
-  day[3] = "Wednesday";
-  day[4] = "Thursday";
-  day[5] = "Friday";
-  day[6] = "Saturday";
-
-  let n = day[d.getDay()];
-
-  let todo;
-
-  if (n === "Monday"){
-    todo = <TodoList1 />;
-  } else if (n ==="Tuesday"){
-    todo = <TodoList2/>;
-  }
+function App() {
+  const day = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(new Date());
 
   return (
-    <div className="App">
-      <h1>{n}Todo List</h1>
-      {todo}
-    </div>
+    <main className="App">
+      <section className="todo-card" aria-labelledby="todo-heading">
+        <h1 id="todo-heading">
+          <span className="weekday">{day}'s</span>
+          <span className="heading-title">Todo List</span>
+        </h1>
+        <TodoList items={todosByDay[day]} />
+      </section>
+    </main>
   );
 }
 
