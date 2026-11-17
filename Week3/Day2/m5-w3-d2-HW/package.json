@@ -1,0 +1,21 @@
+{
+  "name": "m5-w3-d2-demo",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-scripts": "5.0.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "json-server": "^1.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "json-server": "json-server db.json --port 5000",
+    "dev": "concurrently \"npm start\" \"npm run json-server\"",
+    "build": "react-scripts build"
+  }
+}

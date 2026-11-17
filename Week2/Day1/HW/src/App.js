@@ -1,4 +1,6 @@
 import React from 'react';
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './App.css';
 
 const todosByDay = {
@@ -39,24 +41,76 @@ const todosByDay = {
   ],
 };
 
-function Todos({ items, onShowNote }) {
-  const handleNote = (note) => onShowNote(note);
-
+function Todos({ items, onShowNote, onToggle }) {
   return (
     <ul className="todo-list" aria-label="Tasks for today">
       {items.map((todo) => (
         <li className="todo-list-item" key={todo.id}>
           <button
-            className="todo-button"
+            className={`todo-button${todo.done ? ' is-done' : ''}`}
             type="button"
-            onClick={() => handleNote(todo.note)}
+            onClick={() => onShowNote(todo.note)}
             aria-label={`Show note for ${todo.text}`}
           >
             {todo.text}
           </button>
+          <button
+            className={`status-button${todo.done ? ' is-done' : ''}`}
+            type="button"
+            onClick={() => onToggle(todo.id)}
+            aria-label={`${todo.done ? 'Mark as not done' : 'Mark as done'}: ${todo.text}`}
+            aria-pressed={todo.done}
+          >
+            <FontAwesomeIcon icon={todo.done ? faTimes : faCheck} aria-hidden="true" />
+          </button>
         </li>
       ))}
     </ul>
+  );
+}
+
+function AddTodo({ onAdd }) {
+  const [item, setItem] = React.useState('');
+  const [note, setNote] = React.useState('');
+
+  const submit = (event) => {
+    event.preventDefault();
+    const text = item.trim();
+    const todoNote = note.trim();
+    if (!text || !todoNote) return;
+
+    onAdd(text, todoNote);
+    setItem('');
+    setNote('');
+  };
+
+  return (
+    <section className="add-todo" aria-labelledby="add-todo-heading">
+      <h2 id="add-todo-heading">Add a task</h2>
+      <form onSubmit={submit}>
+        <label className="sr-only" htmlFor="add-todo-item">Task</label>
+        <input
+          id="add-todo-item"
+          name="addTodoItem"
+          type="text"
+          value={item}
+          onChange={(event) => setItem(event.target.value)}
+          placeholder="Add Todo Item"
+          required
+        />
+        <label className="sr-only" htmlFor="add-todo-note">Note</label>
+        <input
+          id="add-todo-note"
+          name="addTodoNote"
+          type="text"
+          value={note}
+          onChange={(event) => setNote(event.target.value)}
+          placeholder="Add Todo Note"
+          required
+        />
+        <button className="add-button" type="submit">Add</button>
+      </form>
+    </section>
   );
 }
 
@@ -78,17 +132,42 @@ class App extends React.Component {
     this.setState({ selectedNote: '' });
   };
 
+  addTodo = (text, note) => {
+    this.setState((state) => {
+      const currentTodos = state.todosByDay[state.day];
+      const nextId = currentTodos.reduce((maxId, todo) => Math.max(maxId, todo.id), 0) + 1;
+      return {
+        todosByDay: {
+          ...state.todosByDay,
+          [state.day]: [...currentTodos, { id: nextId, text, note, done: false }],
+        },
+      };
+    });
+  };
+
+  toggleTodo = (todoId) => {
+    this.setState((state) => ({
+      todosByDay: {
+        ...state.todosByDay,
+        [state.day]: state.todosByDay[state.day].map((todo) =>
+          todo.id === todoId ? { ...todo, done: !todo.done } : todo,
+        ),
+      },
+    }));
+  };
+
   render() {
     const { day, todosByDay: todos, selectedNote } = this.state;
 
     return (
       <main className="App">
         <section className="todo-card" aria-labelledby="todo-heading">
-          <h1 id="todo-heading">
-            <span className="weekday">{day}'s</span>
-            <span className="heading-title">Todo List</span>
-          </h1>
-          <Todos items={todos[day]} onShowNote={this.showNote} />
+          <header className="app-header">
+            <p className="weekday">{day}'s</p>
+            <h1 id="todo-heading">Todo List</h1>
+            <p className="subtitle">A little progress, one task at a time.</p>
+          </header>
+          <Todos items={todos[day]} onShowNote={this.showNote} onToggle={this.toggleTodo} />
           {selectedNote && (
             <section className="note-card" aria-live="polite" aria-label="Todo note">
               <p>{selectedNote}</p>
@@ -97,32 +176,11 @@ class App extends React.Component {
               </button>
             </section>
           )}
+          <AddTodo onAdd={this.addTodo} />
         </section>
       </main>
     );
   }
 }
 
-function AddTod0(){
-  return (
-    <div className="border border-dark m-4 p-3">
-      <form>
-      <input
-        type="text"
-        name="addTodoItem"
-        className="d-block d-sm-inline my-2 mt-3 mx-auto mx-sm-2"
-        placeholder="Add Todo Item"
-      />
-      <input
-        type="text"
-        name="addTodoNote"
-        className="d-block d-sm-inline my-2 mx-auto mx-sm-2"
-        placeholder="Add Todo Note"
-      />
-      <button className="d-block d-sm-inline mx-auto my-3 mx-sm-2">Add</button>
-      </form>
-    </div>
-    
-  )
-}
 export default App;
